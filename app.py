@@ -570,4 +570,5 @@ def invoice(ordid):
         pdf=pdfkit.from_string(html,False,configuration=config)
         response.headers['content-Disposition']='inline;filename=output.pdf'
         return response'''
-app.run(debug=True,use_reloader=True)   
+if __name__ == '__main__':
+    app.run()
