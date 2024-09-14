@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay with Razorpay</title>
+    <script src="https://kit.fontawesome.com/c56a316195.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background: url(https://img.pikbest.com/wp/202347/online-payment-icon-digital-transaction-3d-concept-with-receipt-and-e-commerce-for-shopping_9751646.jpg!sw800);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .pay{
+            border: 1px solid;
+            width: 300px;
+            height: auto;
+            padding: 2%;
+            border-radius: 7%;
+            background-color: rgb(200, 189, 189);
+            box-shadow: 1px 1px 10px black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: auto;
+            margin-top: 10%;
+        }
+        .pay button{
+            width: 150px;
+            margin: auto;
+            padding: 0%;
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+            background-color: gray;
+            color: aliceblue;
+            font-weight: bold;
+            cursor: pointer; 
+        }
+        .name{
+            color: rgb(0, 4, 255);
+            text-transform: capitalize;
+        }
+        .price{
+            color: red;
+        }
+        #back {
+            font-size: 40px;
+            color: white;
+            margin: 3%;
+        }
+
+        i {
+            padding: 0 2% 0 2%;
+            margin-top: 2%;
+        }
+
+        #back:hover {
+            border: 1px solid black;
+            border-radius: 10px;
+            box-shadow: 1px 1px 10px white;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{url_for('viewcart')}}" id="back"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="pay">
+        <h2>Pay for <span class="name">{{ name }}</span></h2>
+        <h2>Total - <span class="price">₹{{ price }}</span></h2>
+        <button id="rzp-button1">Pay Now</button>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "rzp_test_RXy19zNlFo9p8F", // Enter your Razorpay Key ID here
+            "amount": "{{ order.amount }}", // Amount in paise
+            "currency": "INR",
+            "name": "{{ name }}",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": "{{ order.id }}", // Pass the order ID from Razorpay
+            "handler": function (response){
+                // Redirect to success route with the payment details
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/success';
+
+                form.innerHTML = `
+                    <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                    <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                    <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+                    <input type="hidden" name="name" value="{{name}}">
+                    <input type="hidden" name="total_price" value="{{price}}">
+                    <input type="hidden" name="itemid" value="{{itemid}}">
+                    <input type="hidden" name="qyt" value="{{qyt}}">
+                `;
+                document.body.appendChild(form);
+                form.submit();
+            },
+            "prefill": {
+                "name": "Test User",
+                "email": "session.get('user')",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

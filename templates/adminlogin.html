@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/c56a316195.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+          margin: auto;
+            background-color: rgb(179, 111, 111);
+            background: url(https://img.freepik.com/premium-vector/geometric-gradient-technology-background_23-2149110132.jpg?semt=ais_hybrid);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        form{
+            width: 400px;
+            height: auto;
+            margin-top: 8%;
+            margin-left: 35%;
+            padding: 3%;
+            border: 1px solid white;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 1px 1px 10px white;
+            backdrop-filter: blur(10px);
+        }
+        #back {
+            font-size: 40px;
+            color: white;
+            margin: 3%;
+        }
+
+        i {
+            padding: 0 2% 0 2%;
+            margin-top: 2%;
+        }
+
+        #back:hover {
+            border: 1px solid black;
+            border-radius: 10px;
+            box-shadow: 1px 1px 10px white;
+        }
+    </style>
+</head>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <center style="color: bisque;">{{ message }}</center>
+    {% endfor %}  
+  {% endif %}
+{% endwith %}
+<body>
+  <a href="{{url_for('index')}}" id="back"><i class="fa-solid fa-arrow-left"></i></a>
+    <form method="post" action="{{url_for('adminlogin')}}">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email:- </label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password:- </label>
+          <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+        </div>
+        <a href="{{url_for('forgotpassword')}}" style="font-weight: bold; color: white; margin-left: 50%; margin-bottom: 50%;">Forgot password</a>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
